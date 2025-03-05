@@ -80,6 +80,11 @@ st.markdown("""
             color: #ffffff;
             font-weight: bold;
         }
+        .linkedin-logo {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+        }
         .stButton>button {
             background-color: #4CA1AF !important;
             color: white !important;
