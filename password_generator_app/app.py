@@ -8,36 +8,36 @@ def check_password_strength(password):
     score = 0
     feedback = []
     
-    # Blacklist of common passwords
+    # Common weak passwords to avoid
     common_passwords = ["password", "123456", "qwerty", "password123", "admin"]
     if password.lower() in common_passwords:
         return "❌ Very Weak Password! Avoid using common passwords.", 0
     
-    # Length Check
+    # Check password length
     if len(password) >= 8:
         score += 1
     else:
         feedback.append("❌ Password should be at least 8 characters long.")
     
-    # Upper & Lowercase Check
+    # Check for uppercase and lowercase letters
     if re.search(r"[A-Z]", password) and re.search(r"[a-z]", password):
         score += 1
     else:
         feedback.append("❌ Use both uppercase and lowercase letters for better security.")
     
-    # Digit Check
+    # Check for numeric digits
     if re.search(r"\d", password):
         score += 1
     else:
         feedback.append("❌ Include at least one numeric digit (0-9) to enhance strength.")
     
-    # Special Character Check
+    # Check for special characters
     if re.search(r"[!@#$%^&*]", password):
         score += 1
     else:
         feedback.append("❌ Add at least one special character (!@#$%^&*) to improve security.")
     
-    # Strength Rating
+    # Determine password strength
     if score == 4:
         return "✅ Strong Password! Your password has been saved.", score
     elif score == 3:
@@ -51,10 +51,10 @@ def generate_strong_password():
     characters = string.ascii_letters + string.digits + "!@#$%^&*"
     return ''.join(random.choice(characters) for _ in range(length))
 
-# Streamlit UI
+# Streamlit UI configuration
 st.set_page_config(page_title="Password Strength Meter", page_icon="\U0001F512", layout="centered")
 
-# Custom CSS for animations and styling
+# Apply custom styling with CSS
 st.markdown("""
     <style>
         html, body, [class*="stApp"] {
@@ -80,11 +80,6 @@ st.markdown("""
             color: #ffffff;
             font-weight: bold;
         }
-        .linkedin-logo {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
         .stButton>button {
             background-color: #4CA1AF !important;
             color: white !important;
@@ -94,10 +89,6 @@ st.markdown("""
             padding: 10px 20px !important;
             border: none !important;
             cursor: pointer !important;
-        }
-        .weak-password {
-            color: white !important;
-            font-weight: bold;
         }
         .strong-password-suggestion {
             color: white !important;
@@ -112,18 +103,17 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Title with lock icon
+# Title section
 st.markdown('<h1 class="title">\U0001F512 Password Strength Meter</h1>', unsafe_allow_html=True)
 
 # Password input field
 password = st.text_input("Enter Password", type="password")
 
-# Check strength button
+# Analyze password button
 if st.button("Tap To Analyze"):
     if password:
         result, score = check_password_strength(password)
         
-        # If password is strong, show message and save it
         if score == 4:
             st.success("✅ Your strong password has been saved securely!")
             st.markdown(f'<p class="title">{result}</p>', unsafe_allow_html=True)
