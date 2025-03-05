@@ -23,19 +23,19 @@ def check_password_strength(password):
     if re.search(r"[A-Z]", password) and re.search(r"[a-z]", password):
         score += 1
     else:
-        feedback.append("❌ Include both uppercase and lowercase letters.")
+        feedback.append("❌ Use both uppercase and lowercase letters for better security.")
     
     # Digit Check
     if re.search(r"\d", password):
         score += 1
     else:
-        feedback.append("❌ Add at least one number (0-9).")
+        feedback.append("❌ Include at least one numeric digit (0-9) to enhance strength.")
     
     # Special Character Check
     if re.search(r"[!@#$%^&*]", password):
         score += 1
     else:
-        feedback.append("❌ Include at least one special character (!@#$%^&*).")
+        feedback.append("❌ Add at least one special character (!@#$%^&*) to improve security.")
     
     # Strength Rating
     if score == 4:
@@ -43,7 +43,7 @@ def check_password_strength(password):
     elif score == 3:
         return "⚠ Moderate Password - Consider adding more security features.", score
     else:
-        return "\n".join(feedback) + "\n❌ Weak Password - Improve it using the suggestions above.", score
+        return "\n".join(feedback) + "\n❌ Weak Password - Strengthen it using the suggestions above.", score
 
 # Function to generate a strong password
 def generate_strong_password():
@@ -95,6 +95,20 @@ st.markdown("""
             border: none !important;
             cursor: pointer !important;
         }
+        .weak-password {
+            color: white !important;
+            font-weight: bold;
+        }
+        .strong-password-suggestion {
+            color: white !important;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -114,8 +128,8 @@ if st.button("Tap To Analyze"):
             st.success("✅ Your strong password has been saved securely!")
             st.markdown(f'<p class="title">{result}</p>', unsafe_allow_html=True)
         else:
-            st.warning(result)
-            st.info("🔑 Suggested Strong Password: " + generate_strong_password())
+            st.markdown(f'<p class="weak-password">{result}</p>', unsafe_allow_html=True)
+            st.markdown(f'<p class="strong-password-suggestion">🔑 Suggested Strong Password: {generate_strong_password()}</p>', unsafe_allow_html=True)
     else:
         st.error("Please enter a password!")
 
